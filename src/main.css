@@ -47,3 +47,35 @@ p {
 .haiku {
   font-family: 'Lobster', cursive;
 }
+
+.title {
+  text-align: center;
+}
+
+.divider {
+  position: relative;
+}
+
+.line {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 2px solid var(--primary-gold);
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  top: 12.5px;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;  
+  border: 10px solid var(--primary-brown);
+}
+
+.dot > img {
+  padding-top: 3.5px;
+}

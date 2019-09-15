@@ -1,9 +1,9 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src)
-
+import Html exposing (Html, text, div, h1, h2, img)
+import Html.Attributes exposing (..)
+import DividerLine exposing (..)
 
 ---- MODEL ----
 
@@ -29,21 +29,17 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     ( model, Cmd.none )
 
-
-
 ---- VIEW ----
-
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ h1 [] [ text "Your Elm App is working!" ]
+    div [ class "title" ]
+        [ h1 [] [ text "Mjukvarelauget" ]
+        , dividerLine
+        , h2 [] [ text "Bare ræl" ] 
         ]
 
-
-
 ---- PROGRAM ----
-
 
 main : Program () Model Msg
 main =
