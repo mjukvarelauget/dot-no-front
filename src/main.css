@@ -54,6 +54,7 @@ p {
 
 .divider {
   position: relative;
+  text-align: center;
 }
 
 .line {
