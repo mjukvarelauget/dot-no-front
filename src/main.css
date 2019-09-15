@@ -9,18 +9,41 @@
   height: inherit;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Fanwood+Text|Lobster|Quattrocento&display=swap');
+
+:root {
+  --primary-brown: #362B21;
+  --primary-gold: #FFC700;
+}
+
 body {
-  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--primary-brown);
   margin: 0;
-  text-align: center;
-  color: #293c4b;
 }
 
-h1 {
-  font-size: 30px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: white;
 }
 
-img {
-  margin: 20px 0;
-  max-width: 200px;
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Quattrocento', serif;
+}
+
+h5,
+h6,
+p {
+  font-family: 'Fanwood Text', serif;
+}
+
+.haiku {
+  font-family: 'Lobster', cursive;
 }
