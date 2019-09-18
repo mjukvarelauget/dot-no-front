@@ -9,5 +9,5 @@ dividerLine =
         [ hr [ class "line" ] [ ] 
         , span [ class "dot" ] [ 
             img [ src "/assets/mjukvarekryss.png", height 18, width 18 ] [ ]
-         ]
         ]
+    ]

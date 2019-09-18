@@ -4,6 +4,7 @@ import Browser
 import Html exposing (Html, text, div, h1, h2, img)
 import Html.Attributes exposing (..)
 import DividerLine exposing (..)
+import SpinLoader exposing (..)
 
 ---- MODEL ----
 
@@ -36,8 +37,10 @@ view model =
     div [ class "title" ]
         [ h1 [] [ text "Mjukvarelauget" ]
         , dividerLine
-        , h2 [] [ text "Bare ræl" ] 
-        ]
+        , h2 [] [ text "Bare ræl" ]
+        , spinLoader
+        , h2 [] [ text "Denne siden er under konstruksjon, kom tilbake senere takk"]
+    ]
 
 ---- PROGRAM ----
 
