@@ -12,7 +12,7 @@ import Json.Decode exposing (Decoder, field, string, list)
 ---- MODEL ----
 
 
-urlBase = "http://localhost:5000"
+urlBase = "https://mjukvare-no-api.herokuapp.com/"
 
 
 type Model 
@@ -57,7 +57,6 @@ view model =
             [ h1 [] [ text "Mjukvarelauget" ]
             , dividerLine
             , h2 [] [ text "Bare ræl" ]
-            , h2 [] [ text "Denne siden er under konstruksjon, kom tilbake senere takk"]
         ]
         ,haikuView model
     ]
@@ -72,14 +71,20 @@ viewHaiku : Model -> Html Msg
 viewHaiku model =
     case model of 
         Failure -> 
-            div [] [ h2 [ class "haiku" ] [text "No Haiku for you"] ]
+            div [class "haiku-wrapper"] [ 
+                h2 [ class "haiku" ] [text "No Haiku for you"] 
+            ]
 
-        Loading ->  spinLoader
+        Loading ->  div [class "haiku-wrapper"] [ 
+                h2 [ class "haiku" ] [text "Loading..."] 
+            ]
 
         Success haiku -> 
             div [ class "haiku-wrapper" ] [
                 renderList haiku
-                ,h2 [class "what"] [text "hæ?!"]
+                ,h2 [class "what"] [
+                    a [ href "https://github.com/mjukvarelauget/badhaiku" ] [ text "Hæ?" ] 
+                ]
             ]
 
 renderList : List String -> Html Msg
