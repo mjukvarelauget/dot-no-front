@@ -54,6 +54,10 @@ p {
   text-align: right;
 }
 
+a:visited {
+  color: white;
+}
+
 .title {
   text-align: center;
 }
