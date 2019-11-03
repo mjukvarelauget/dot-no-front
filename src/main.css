@@ -58,6 +58,15 @@ p {
   text-align: center;
 }
 
+.title-top {
+  font-size: 72px;
+
+}
+
+.title-bottom {
+  font-size: 48px;
+}
+
 .divider {
   position: relative;
   text-align: center;

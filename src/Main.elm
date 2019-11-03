@@ -54,9 +54,9 @@ view : Model -> Html Msg
 view model =
     div [] [
         div [ class "title" ]
-            [ h1 [] [ text "Mjukvarelauget" ]
+            [ h1 [ class "title-top" ] [ text "Mjukvarelauget" ]
             , dividerLine
-            , h2 [] [ text "Bare ræl" ]
+            , h2 [ class "title-bottom"] [ text "Bare ræl" ]
         ]
         ,haikuView model
     ]
