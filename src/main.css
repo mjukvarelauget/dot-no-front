@@ -40,6 +40,10 @@ p {
   font-family: 'Fanwood Text', serif;
 }
 
+p {
+  font-size: 18px;
+}
+
 .haiku-wrapper {
   text-decoration: underline white;
   font-family: 'Lobster', cursive;
@@ -47,7 +51,10 @@ p {
   margin: 0 4em 0 4em; 
 }
 
-.haiku {
+@media only screen and (max-width: 800px) {
+  .haiku-wrapper {
+    margin: 0 10px 0 10px;
+  }
 }
 
 .what {
@@ -70,6 +77,18 @@ a:visited {
 .title-bottom {
   font-size: 48px;
 }
+
+@media only screen and (max-width: 800px) {
+   .title-top {
+     font-size: 48px;
+   }
+
+   .title-bottom {
+    font-size: 32px;
+  }
+}
+
+
 
 .divider {
   position: relative;
