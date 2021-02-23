@@ -31,3 +31,4 @@ Vedvarende vegitativ tilstand
 Stålull og banning
 Takrasfare
 Aggressiv caching
+Akustisk ordsky
