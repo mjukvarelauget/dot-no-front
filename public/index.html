@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fanwood+Text|Lobster|Quattrocento&display=swap">
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,14 +13,20 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="manifest" href="assets/manifest.json">
+    <link rel="shortcut icon" href="assets/favicon.ico">
     <title>Mjukvarelauget</title>
-</head>
+  </head>
 <body>
     <noscript>
-        You need to enable JavaScript to run this app.
+        You need javascript activated to display this content
     </noscript>
+
     <div id="root"></div>
+    <script>
+      var app = Elm.Main.init({
+	  node: document.getElementById('root')
+      });
+    </script>
 </body>
 </html>

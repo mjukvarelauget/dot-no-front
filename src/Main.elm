@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing ( class, href )
 import DividerLine exposing (..)
 import SpinLoader exposing (..)
 import Http exposing (..)
