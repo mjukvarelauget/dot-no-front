@@ -4,7 +4,7 @@ build: clean compile
 	mv main.js build/main.js
 
 compile: src/Main.elm
-	elm make src/Main.elm --output=main.js
+	elm make src/Main.elm --optimize --output=main.js
 
 .PHONY: clean
 clean:
