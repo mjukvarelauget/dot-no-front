@@ -7,12 +7,17 @@
     "test": "tests"
   },
   "scripts": {
+    "build": "npm i && rm -rf build && cp -r public build && elm make src/Main.elm --optimize --output=build/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mjukvarelauget/dot-no-front.git"
   },
+  "devDependencies": {
+    "elm": "latest-0.19.1"
+  },
+  "dependencies": {},
   "keywords": [
     "mjukvare",
     "elm"
