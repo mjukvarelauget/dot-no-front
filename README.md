@@ -2,11 +2,9 @@
 Hjemmesia til mjukvarelauget
 
 ## Byggeprosess
-Installer elm. Instruksjonene finner du på denne sia: https://github.com/elm/compiler/blob/master/installers/linux/README.md.
+Installer NPM.
 
-Installer deretter Make. 
-
-Når dette er på plass er byggkommandoen `make build`. Makefila lager mappa "build", og fyller den med filene fra "public" samt optimalisert output fra elm-kompilatoren. `make clean` fjerner alle byggfiler.
+Når dette er på plass er byggkommandoen `npm run build`. Scriptet i package.json lager mappa "build", og fyller den med filene fra "public" samt optimalisert output fra elm-kompilatoren.
 
 ## Serving
-I utgangspunktet skal det fungere å serve mappa "Build" med `index.html` som startpunkt.
+I utgangspunktet skal det fungere å serve mappa "build" med `index.html` som startpunkt.
