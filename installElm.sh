@@ -1,21 +1,25 @@
 #!/bin/bash
-
-REPOURL="https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz"
-INSTALLOCATION="/usr/local/bin"
+NPMINSTALL="node_modules/elm/bin"
+ELMVERSION="elm@latest-0.19.1"
 
 echo "Check for installation"
-if [ ! -e "${INSTALLOCATION}/elm" ]
+
+if [ ! -z $1 ]
 then
-    echo "No installation detected at ${INSTALLOCATION}, installing..."
-    echo "Download code from ${REPOURL}"
-    curl -L -o elm.gz $REPOURL
-    echo "Unzip"
-    gunzip elm.gz
-    echo "Mark elm executable as, well, executable"
-    chmod +x elm
-    echo "Move elm to some file in PATH ${INSTALLOCATION}"
-    sudo mv elm $INSTALLOCATION
-else
-    echo "Elm detected in ${INSTALLOCATION}, all in order"
+    NPMINSTALL=$1 
+fi
+echo "Looking for elm in ${NPMINSTALL}"
+
+if [ ! -z $2 ]
+then
+    ELMVERSION="elm@latest-${2}"
+    echo "Elm version set to ${2}"
 fi
 
+if [ -e "${NPMINSTALL}/elm" ]
+then
+    echo "Elm found as installed NPM package"
+else
+    echo "Elm not found in expected location ${NPMINSTALL}, installing"
+    npm install $ELMVERSION
+fi
