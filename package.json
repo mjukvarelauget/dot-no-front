@@ -1,0 +1,26 @@
+{
+  "name": "dot-no-front",
+  "version": "1.0.0",
+  "description": "mjukvarelaugets hjemmeside",
+  "main": "index.html",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjukvarelauget/dot-no-front.git"
+  },
+  "keywords": [
+    "mjukvare",
+    "elm"
+  ],
+  "author": "Mjukvarelauget",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjukvarelauget/dot-no-front/issues"
+  },
+  "homepage": "https://github.com/mjukvarelauget/dot-no-front#readme"
+}
