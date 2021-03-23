@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "npm i && rm -rf build && cp -r public build && elm make src/Main.elm --optimize --output=build/main.js",
+    "build": "make build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
