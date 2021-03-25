@@ -2,7 +2,7 @@
 Hjemmesia til mjukvarelauget
 
 ## Byggeprosess
-Installer NPM.
+Installer NPM og make.
 
 Når dette er på plass er byggkommandoen `npm run build`. Scriptet i package.json lager mappa "build", og fyller den med filene fra "public" samt optimalisert output fra elm-kompilatoren.
 
