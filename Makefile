@@ -1,7 +1,7 @@
 SRC_FOLDER = src
 BUILD_FOLDER = build
 
-build:
+build_from_node:
 	npm i
 	rm -rf $(BUILD_FOLDER)
 	cp -r public $(BUILD_FOLDER)
