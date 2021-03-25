@@ -12,7 +12,17 @@ import Random
 
 
 ---- MODEL ----
+subHeaderList =
+    [ "Bare ræl"
+    , "Også på Skedsmo"
+    , "Generell rivning"
+    , "På forhånd beklager"
+    , "Derav søksmålet"
+    , "JABEEEEE"
+    , "aaaaaaaa"
+    ]
 
+ 
 
 urlBase = "https://mjukvare-no-api.herokuapp.com/"
 
@@ -46,7 +56,9 @@ update msg model =
             (model, getRandomHeader)
                 
         GotSubHeaderIndex newSubHeaderIndex -> 
-            update GetHaiku (LoadingHaiku (getHeaderFromList newSubHeaderIndex))
+            update GetHaiku
+                (LoadingHaiku
+                     (getElementFromList subHeaderList newSubHeaderIndex))
             
         GetHaiku -> 
             (model, getHaiku)
@@ -170,14 +182,18 @@ getRandomHeader : Cmd Msg
 getRandomHeader =
     Random.generate GotSubHeaderIndex (Random.int 0 6)
 
-getHeaderFromList : Int -> String
-getHeaderFromList index =
-   case index of
-       0 -> "Bare ræl"
-       1 -> "Også på Skedsmo"
-       2 -> "Generell rivning"
-       3 -> "På forhånd beklager"
-       4 -> "Derav søksmålet"
-       5 -> "JABEEEEE"
-       6 -> "aaaaaaaa"
-       _ -> "header list index out of bounds"
+-- Utility
+getElementFromList : (List String) -> Int -> String
+getElementFromList list index =
+    case list of
+        (head::tail) ->
+            if index < 0 then
+                "Invalid index (negative)"
+            else
+                if index == 0 then
+                    head
+                else
+                    getElementFromList tail (index - 1)
+
+        [] ->
+            "Empty list!"
