@@ -31,6 +31,17 @@ p {
   font-size: 18px;
 }
 
+.content-wrapper {
+    max-width: 1920px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-column {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
 .haiku-wrapper {
   text-decoration: underline white;
   font-family: 'Lobster', cursive;
@@ -53,7 +64,8 @@ a:visited {
 }
 
 .title {
-  text-align: center;
+    text-align: center;
+    
 }
 
 .title-top {
@@ -76,6 +88,11 @@ a:visited {
 }
 
 
+.short {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .divider {
   position: relative;
