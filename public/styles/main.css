@@ -31,6 +31,10 @@ p {
   font-size: 18px;
 }
 
+.no-top-margin {
+    margin-top: 0px;
+}
+
 .content-wrapper {
     max-width: 1920px;
     margin-left: auto;
@@ -59,13 +63,42 @@ p {
   text-align: right;
 }
 
+.article-box {
+    border-style: solid;
+}
+
+.featured-article {
+    display: flex;
+    margin: 20px;
+}
+
+.featured-heading {
+    font-size: 40px;
+    height: 20%;
+}
+
+.featured-image {
+    width: 100%;
+}
+
+.featured-image-box {
+    width: 33%;
+}
+
+.featured-text {
+    width: 66%;
+    text-align: center;
+}
+
+.text-box-text {
+}
+
 a:visited {
   color: white;
 }
 
 .title {
     text-align: center;
-    
 }
 
 .title-top {

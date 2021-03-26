@@ -1,7 +1,7 @@
 module Main exposing (..)
 
-import Html exposing ( Html, div, text, h1, h2, a )
-import Html.Attributes exposing ( class, href )
+import Html exposing ( Html, div, text, h1, h2, h3, p, img, a )
+import Html.Attributes exposing ( class, href, src )
 import DividerLine exposing ( dividerLine, dividerLineShort )
 import Browser
 
@@ -24,25 +24,32 @@ dummyHaiku =
 dummyArticle1 =
     { title = "test1"
     , ingress = "spennende med kniv!"
-    , image = "image1.url"
+    , imageURL = "assets/ekorn.jpg"
     }
 
 dummyArticle2 =
     { title = "Kålprisene stiger igjen"
     , ingress = "Hva med potet?"
-    , image = "image2.url"
+    , imageURL = "assets/ekorn.jpg"
     }
 
 dummyArticle3 =
-    { title = "17 store epler på en gang"
+    { title = "17 store epler, på en gang"
     , ingress = "Du trenger et trau"
-    , image = "image3.url"
+    , imageURL = "assets/ekorn.jpg"
     }
 
+dummyArticle4 =
+    { title = "Hundeboom i Ørkelljunga"
+    , ingress = "Nu jävlar, jag kräks. Inte har jag den snedblickan der"
+    , imageURL = "assets/ekorn.jpg"
+    }
+    
 dummyArticles =
     [ dummyArticle1
     , dummyArticle2
     , dummyArticle3
+    , dummyArticle4
     ]
     
 ---- MODEL ----
@@ -50,16 +57,16 @@ urlBase = "https://mjukvare-no-api.herokuapp.com/"
 
 type alias Haiku = List String
 type alias HeaderText = String
-type alias ArticleInfo =
+type alias Article =
     { title: String
     , ingress: String 
-    , image: String
+    , imageURL: String
     }
           
 type alias State =
     { haiku: Haiku
     , subHeader: HeaderText
-    , articles: List ArticleInfo
+    , articles: List Article
     }
      
 type Model
@@ -120,9 +127,42 @@ haikuView model =
         ]
 
 articlesView : Model -> Html Msg
-articlesView model = div [class "articles-wrapper" ] [
-                     
+articlesView model =
+    div [class "articles-wrapper" ] [
+         div [class "featured-article"] [
+              div [class "featured-image-box"] [
+                   img [class "featured-image", src dummyArticle1.imageURL] []
+                  ]
+                  
+             , div [class "featured-text"] [
+                   div [class "featured-heading"] [
+                        h2 [class "no-top-margin"] [
+                             text dummyArticle1.title
+                            ]
+                       ]
+                  , dividerLineShort
+                  , p [class "text-box-text"] [
+                       text dummyArticle1.ingress
                       ]
+                  ]
+             ]
+        , div [class "articles-list"] [
+              articleView dummyArticle2
+             ,articleView dummyArticle3
+             ,articleView dummyArticle4
+             ]
+        ]
+
+articleView : Article -> Html Msg
+articleView article =
+    div [class "article-box"] [
+          img [src article.imageURL][]
+        , dividerLineShort
+        , h3 [] [
+               text article.title
+              ]
+        ]
+        
 renderList : List String -> Html Msg
 renderList lst =
     div []
