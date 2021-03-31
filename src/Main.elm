@@ -22,27 +22,31 @@ dummyHaiku =
     ,"brølende breking"]
 
 dummyArticle1 =
-    { title = "test1"
-    , ingress = "spennende med kniv!"
+    { title = "Kutt og kapp"
+    , ingress = "Spennende med kniv! Å kappe ting er gøy. Kløyving er fett. Det å dele noe på midten, er gjevt. Det er derfor ikke overraskende at dagens unge kjøper fileteringskniver som aldri før."
     , imageURL = "assets/ekorn.jpg"
+    , articleURL = "/ekorn.html"
     }
 
 dummyArticle2 =
     { title = "Kålprisene stiger igjen"
     , ingress = "Hva med potet?"
     , imageURL = "assets/ekorn.jpg"
+    , articleURL = "/ekorn.html"
     }
 
 dummyArticle3 =
     { title = "17 store epler, på en gang"
     , ingress = "Du trenger et trau"
     , imageURL = "assets/ekorn.jpg"
+    , articleURL = "/ekorn.html"
     }
 
 dummyArticle4 =
     { title = "Hundeboom i Ørkelljunga"
     , ingress = "Nu jävlar, jag kräks. Inte har jag den snedblickan der"
     , imageURL = "assets/ekorn.jpg"
+    , articleURL = "/ekorn.html"
     }
     
 dummyArticles =
@@ -61,6 +65,7 @@ type alias Article =
     { title: String
     , ingress: String 
     , imageURL: String
+    , articleURL: String
     }
           
 type alias State =
@@ -135,7 +140,7 @@ articlesView model =
                   ]
                   
              , div [class "featured-text"] [
-                   div [class "featured-heading"] [
+                   a [class "featured-heading", href dummyArticle1.articleURL] [
                         h2 [class "no-top-margin"] [
                              text dummyArticle1.title
                             ]
@@ -155,10 +160,12 @@ articlesView model =
 
 articleView : Article -> Html Msg
 articleView article =
-    div [class "article-box"] [
-          img [src article.imageURL][]
+    a [class "article-box", href article.articleURL] [
+          div [class "article-image-box"] [
+               img [src article.imageURL][]
+              ]
         , dividerLineShort
-        , h3 [] [
+        , h3 [class "article-header"] [
                text article.title
               ]
         ]
