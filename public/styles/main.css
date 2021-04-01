@@ -51,6 +51,7 @@ p {
   text-decoration: underline white;
   font-family: 'Lobster', cursive;
   font-size: 2em;
+  min-height: 6em;
   margin: 0 4em 0 4em; 
 }
 
