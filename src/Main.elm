@@ -8,6 +8,9 @@ import Task
 
 import Json.Decode exposing (Decoder, field, string, list)
 import Http
+import Random
+
+import Array
 
 import DividerLine exposing ( dividerLine, dividerLineShort )
 
@@ -106,8 +109,8 @@ init _ =
 type Msg
     = LoadHaiku
     | GotHaiku (Result Http.Error (List String))
-    | LoadSubHeading 
-    | GotSubHeading HeaderText
+    | LoadSubHeader 
+    | GotSubHeaderIndex Int
     | LoadArticles
     | GotArticles (List Article)
 
@@ -123,7 +126,20 @@ update msg model =
                         
                 Err _ -> 
                     ({model | haiku = Failed "No haiku for you"}, Cmd.none)
-            
+
+        LoadSubHeader ->
+            (model, getSubHeader)
+
+        GotSubHeaderIndex index ->
+            let headerListElement = Array.get index (Array.fromList subHeaderList)
+           
+            in
+                case headerListElement of
+                    Just headerText ->
+                        ({model | subHeader = Valid headerText}, Cmd.none)
+                    Nothing ->
+                        ({model | subHeader = Failed "No subheader found"}, Cmd.none)
+                
         _ -> (model, Cmd.none)
             
 
@@ -148,11 +164,19 @@ view model =
 
 headerView : Model -> Html Msg
 headerView model =
-    div [ class "title" ]
-        [ h1 [ class "title-top" ] [ text "Mjukvarelauget" ]
-        , dividerLineShort
-        , h2 [ class "title-bottom"] [ text "Bare ræl" ]
-        ]
+    let headerText =
+            case model.subHeader of
+                Empty -> "Loading"
+                Valid text -> text
+                Failed message -> message
+                
+
+    in
+        div [ class "title" ]
+            [ h1 [ class "title-top" ] [ text "Mjukvarelauget" ]
+            , dividerLineShort
+            , h2 [ class "title-bottom"] [ text headerText ]
+            ]
 
 haikuView : Model -> Html Msg
 haikuView model =
@@ -260,9 +284,15 @@ renderList lst =
 loadData : Cmd Msg
 loadData =
     Cmd.batch [
-         getHaiku
-         ]
-    
+          getHaiku
+        , getSubHeader
+        ]
+
+---- Random ----
+getSubHeader : Cmd Msg
+getSubHeader =
+    Random.generate GotSubHeaderIndex (Random.int 0 7)
+        
 ---- HTTP ----
 getHaiku : Cmd Msg
 getHaiku = 
