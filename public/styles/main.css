@@ -78,12 +78,14 @@ p {
 }
 
 .featured-image {
-    max-height: 100%;
-    max-width: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .featured-image-box {
     width: 33%;
+    object-fit: cover;
+    margin-right: 20px;
 }
 
 .featured-text {
@@ -123,6 +125,7 @@ p {
 
 .article-image-box img {
     width: 100%;
+    object-fit: cover;
 }
 
 .article-header {
@@ -139,7 +142,6 @@ a:visited {
 
 .title-top {
   font-size: 72px;
-
 }
 
 .title-bottom {

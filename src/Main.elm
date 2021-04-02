@@ -6,7 +6,7 @@ import Browser
 
 import Task
 
-import Json.Decode exposing (Decoder, field, string, list)
+import Json.Decode exposing (Decoder, field, string, list, map, map5)
 import Http
 import Random
 
@@ -34,6 +34,7 @@ dummyHaiku =
 dummyArticle1 =
     { title = "Kutt og kapp"
     , ingress = "Spennende med kniv! Å kappe ting er gøy. Kløyving er fett. Det å dele noe på midten, er gjevt. Det er derfor ikke overraskende at dagens unge kjøper fileteringskniver som aldri før."
+    , imgAlt = "EKORN"
     , imageURL = "assets/ekorn.jpg"
     , articleURL = "/ekorn.html"
     }
@@ -41,6 +42,7 @@ dummyArticle1 =
 dummyArticle2 =
     { title = "Kålprisene stiger igjen"
     , ingress = "Hva med potet?"
+    , imgAlt = "EKORN"
     , imageURL = "assets/ekorn.jpg"
     , articleURL = "/ekorn.html"
     }
@@ -48,6 +50,7 @@ dummyArticle2 =
 dummyArticle3 =
     { title = "17 store epler, på en gang"
     , ingress = "Du trenger et trau"
+    , imgAlt = "EKORN"
     , imageURL = "assets/ekorn.jpg"
     , articleURL = "/ekorn.html"
     }
@@ -55,6 +58,7 @@ dummyArticle3 =
 dummyArticle4 =
     { title = "Hundeboom i Ørkelljunga"
     , ingress = "Nu jävlar, jag kräks. Inte har jag den snedblickan der"
+    , imgAlt = "EKORN"
     , imageURL = "assets/ekorn.jpg"
     , articleURL = "/ekorn.html"
     }
@@ -70,7 +74,15 @@ dummyArticles =
 cmsApiUrlBase = "https://ll3wkgw3.api.sanity.io/v1/data/query/production/"
 cmsUrlBase = "https://cdn.sanity.io/"
 -- Evntually we'll want to fetch 4 posts in total, but the cms does only contain 3 atm
-articlesQuery = "*[_type == 'post'] | [0..3] | order(_createdAt asc) | {author->{name}, body[0]{children[0]{text}}, mainImage{asset->{originalFilename, path}}}"
+articlesQuery = """
+*[_type == 'post'] | [0..3] | order(_createdAt asc) | 
+{
+author->{name}, 
+body[0]{children[0]{text}}, 
+mainImage{asset->{originalFilename, path}},
+title
+}
+"""
 
                 
 urlBase = "https://mjukvare-no-api.herokuapp.com/"
@@ -81,7 +93,8 @@ type alias HeaderText = String
 
 type alias Article =
     { title: String
-    , ingress: String 
+    , ingress: String
+    , imgAlt: String
     , imageURL: String
     , articleURL: String
     }
@@ -118,7 +131,7 @@ type Msg
     | LoadSubHeader 
     | GotSubHeaderIndex Int
     | LoadArticles
-    | GotArticles (Result Http.Error (List String))
+    | GotArticles (Result Http.Error (List Article))
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -148,17 +161,9 @@ update msg model =
                 
         GotArticles result ->
             case result of
-                Ok article_text ->
-                    ({model | articles = Valid
-                          [{ title="title!!"
-                           , ingress=(
-                                      case List.head article_text of
-                                          Just text -> text
-                                          Nothing -> "no"
-                                     )
-                           , imageURL="dsadsda.no"
-                           , articleURL="https://mjukvarelauget.no/ekorn.html"}]
-                     }, Cmd.none)
+                Ok article ->
+                    ({model | articles = Valid article}, Cmd.none)
+
                 Err m ->
                     case m of
                         Http.BadBody str ->
@@ -343,18 +348,41 @@ getArticleData =
         }
 
 
-articleDataDecoder : Decoder (List String)
+articleDataDecoder : Decoder (List Article)
 articleDataDecoder =
     (field
          "result"
-         (
-          list
+         (list
               (
-               field "author" (field "name" string) 
+               map5 Article
+               (field "title" string)
+               (field "body"
+                    (field "children"
+                         (field "text" string)
+                    )
+               )
+               (field "mainImage"
+                    (field "asset"
+                         (field "originalFilename" string)
+                    )
+               )
+               (map buildImageUrl
+                    (field "mainImage"
+                         (field "asset"
+                              (field "path" string)
+                         )
+                    )
+               )
+               (map buildArticleUrl(field "title" string))
               )
          )
     )
 
+buildArticleUrl : String -> String
+buildArticleUrl path = "/" ++ path
+
+buildImageUrl : String -> String
+buildImageUrl path = cmsUrlBase ++ path ++ "?w=500&h=500"
         
 getHaiku : Cmd Msg
 getHaiku = 
