@@ -67,6 +67,12 @@ dummyArticles =
     ]
     
 ---- MODEL ----
+cmsApiUrlBase = "https://ll3wkgw3.api.sanity.io/v1/data/query/production/"
+cmsUrlBase = "https://cdn.sanity.io/"
+-- Evntually we'll want to fetch 4 posts in total, but the cms does only contain 3 atm
+articlesQuery = "*[_type == 'post'] | [0..3] | order(_createdAt asc) | {author->{name}, body[0]{children[0]{text}}, mainImage{asset->{originalFilename, path}}}"
+
+                
 urlBase = "https://mjukvare-no-api.herokuapp.com/"
 urlHaiku = "/bad/haiku"
 
@@ -112,7 +118,7 @@ type Msg
     | LoadSubHeader 
     | GotSubHeaderIndex Int
     | LoadArticles
-    | GotArticles (List Article)
+    | GotArticles (Result Http.Error (List String))
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -140,6 +146,26 @@ update msg model =
                     Nothing ->
                         ({model | subHeader = Failed "No subheader found"}, Cmd.none)
                 
+        GotArticles result ->
+            case result of
+                Ok article_text ->
+                    ({model | articles = Valid
+                          [{ title="title!!"
+                           , ingress=(
+                                      case List.head article_text of
+                                          Just text -> text
+                                          Nothing -> "no"
+                                     )
+                           , imageURL="dsadsda.no"
+                           , articleURL="https://mjukvarelauget.no/ekorn.html"}]
+                     }, Cmd.none)
+                Err m ->
+                    case m of
+                        Http.BadBody str ->
+                            ({model | articles = Failed str}, Cmd.none)
+                        _ ->
+                            ({model | articles = Failed "no article for you"}, Cmd.none)
+                        
         _ -> (model, Cmd.none)
             
 
@@ -210,7 +236,20 @@ haikuView model =
 articlesView : Model -> Html Msg
 articlesView model =
     div [class "articles-wrapper" ] [
-         featuredArticleView (Valid dummyArticle1)
+         featuredArticleView
+             (case model.articles of
+                  Valid articles ->
+                      case List.head articles of
+                          Just article -> Valid article
+                          Nothing ->
+                              Failed "no article here"
+                  Failed m ->
+                      Failed m
+
+                  Empty ->
+                      Failed "abolutely not"
+             )
+                              
         , div [class "articles-list"] [
               articleView (Valid dummyArticle2)
              ,articleView (Valid dummyArticle3)
@@ -286,6 +325,7 @@ loadData =
     Cmd.batch [
           getHaiku
         , getSubHeader
+        , getArticleData
         ]
 
 ---- Random ----
@@ -294,6 +334,28 @@ getSubHeader =
     Random.generate GotSubHeaderIndex (Random.int 0 7)
         
 ---- HTTP ----
+getArticleData : Cmd Msg
+getArticleData =
+    Http.get
+        {
+          url = cmsApiUrlBase ++ "?query=" ++ articlesQuery
+        , expect = Http.expectJson GotArticles articleDataDecoder
+        }
+
+
+articleDataDecoder : Decoder (List String)
+articleDataDecoder =
+    (field
+         "result"
+         (
+          list
+              (
+               field "author" (field "name" string) 
+              )
+         )
+    )
+
+        
 getHaiku : Cmd Msg
 getHaiku = 
     Http.get
