@@ -11,6 +11,7 @@ import Http
 import Random
 
 import Array
+--- import List <- imported by default
 
 import DividerLine exposing ( dividerLine, dividerLineShort )
 
@@ -26,49 +27,13 @@ subHeaderList =
     , "Mjukvara på norsk"
     ]
 
-dummyHaiku =
-    ["test test mange test"
-    ,"mange sauer på en gang"
-    ,"brølende breking"]
-
-dummyArticle1 =
-    { title = "Kutt og kapp"
-    , ingress = "Spennende med kniv! Å kappe ting er gøy. Kløyving er fett. Det å dele noe på midten, er gjevt. Det er derfor ikke overraskende at dagens unge kjøper fileteringskniver som aldri før."
-    , imgAlt = "EKORN"
-    , imageURL = "assets/ekorn.jpg"
-    , articleURL = "/ekorn.html"
+emptyArticle =
+    { title = "EMPTY"
+    , ingress = "EMPTY"
+    , imgAlt = "EMPTY"
+    , imageURL = "EMPTY"
+    , articleURL = "EMPTY"
     }
-
-dummyArticle2 =
-    { title = "Kålprisene stiger igjen"
-    , ingress = "Hva med potet?"
-    , imgAlt = "EKORN"
-    , imageURL = "assets/ekorn.jpg"
-    , articleURL = "/ekorn.html"
-    }
-
-dummyArticle3 =
-    { title = "17 store epler, på en gang"
-    , ingress = "Du trenger et trau"
-    , imgAlt = "EKORN"
-    , imageURL = "assets/ekorn.jpg"
-    , articleURL = "/ekorn.html"
-    }
-
-dummyArticle4 =
-    { title = "Hundeboom i Ørkelljunga"
-    , ingress = "Nu jävlar, jag kräks. Inte har jag den snedblickan der"
-    , imgAlt = "EKORN"
-    , imageURL = "assets/ekorn.jpg"
-    , articleURL = "/ekorn.html"
-    }
-    
-dummyArticles =
-    [ dummyArticle1
-    , dummyArticle2
-    , dummyArticle3
-    , dummyArticle4
-    ]
     
 ---- MODEL ----
 cmsApiUrlBase = "https://ll3wkgw3.api.sanity.io/v1/data/query/production/"
@@ -161,15 +126,18 @@ update msg model =
                 
         GotArticles result ->
             case result of
-                Ok article ->
-                    ({model | articles = Valid article}, Cmd.none)
+                Ok fetchedArticles ->
+                    ({model | articles = Valid fetchedArticles}, Cmd.none)
 
                 Err m ->
                     case m of
                         Http.BadBody str ->
-                            ({model | articles = Failed str}, Cmd.none)
+                            (
+                             {model | articles = Failed ("The json decode failed:" ++ str)}
+                            , Cmd.none
+                            )
                         _ ->
-                            ({model | articles = Failed "no article for you"}, Cmd.none)
+                            ({model | articles = Failed "no articles for you"}, Cmd.none)
                         
         _ -> (model, Cmd.none)
             
@@ -240,28 +208,37 @@ haikuView model =
         
 articlesView : Model -> Html Msg
 articlesView model =
-    div [class "articles-wrapper" ] [
-         featuredArticleView
-             (case model.articles of
-                  Valid articles ->
-                      case List.head articles of
-                          Just article -> Valid article
-                          Nothing ->
-                              Failed "no article here"
-                  Failed m ->
-                      Failed m
+    case model.articles of
+        Empty ->
+            div [class "articles-wrapper" ] [
+                 text "Loading articles..."
+                ]
+        Failed m ->
+            div [class "articles-wrapper" ] [
+                 text ("Something went wrong while loading the articles: " ++ m)
+                ]
+        Valid articles ->
+            showLoadedArticles articles
 
-                  Empty ->
-                      Failed "abolutely not"
-             )
-                              
-        , div [class "articles-list"] [
-              articleView (Valid dummyArticle2)
-             ,articleView (Valid dummyArticle3)
-             ,articleView (Valid dummyArticle4)
-             ]
-        ]
-
+showLoadedArticles : (List Article) -> Html Msg
+showLoadedArticles articles =
+    let
+        featuredArticle =
+            case List.head articles of
+                Just article -> article
+                Nothing -> emptyArticle
+                           
+        restOfArticles =
+            case List.tail articles of
+                Just rest -> rest
+                Nothing -> [emptyArticle]
+    in
+        -- "<<" is function composition (f << g) x  == f(g(x))
+        div [class "articles-wrapper" ] [
+             featuredArticleView (Valid featuredArticle)
+            , div [class "articles-list"] (List.map (articleView << Valid) restOfArticles)
+            ]
+   
 featuredArticleView : Resource Article -> Html Msg
 featuredArticleView article =
     case article of
@@ -291,7 +268,7 @@ featuredArticleView article =
 
         Failed message ->
             div [class "featured-article"] [
-                 text message
+                 text ("Featured article load failed: " ++ message)
                 ]
 
             
@@ -315,7 +292,7 @@ articleView article =
 
         Failed message ->
             div [class "article-box"] [
-                text message
+                text ("Article load failed: " ++ message)
                 ]
         
                 
