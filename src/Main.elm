@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing ( Html, div, text, h1, h2, h3, p, img, a )
-import Html.Attributes exposing ( class, href, src )
+import Html.Attributes exposing ( class, href, src, alt )
 import Browser
 
 import Task
@@ -245,7 +245,10 @@ featuredArticleView article =
         Valid content ->
             div [class "featured-article"] [
                  div [class "featured-image-box"] [
-                      img [class "featured-image", src content.imageURL] []
+                      img [
+                        class "featured-image"
+                      , src content.imageURL
+                      , alt content.imgAlt] []
                      ]
                      
                 , div [class "featured-text"] [
@@ -278,7 +281,7 @@ articleView article =
         Valid content ->
             a [class "article-box", href content.articleURL] [
                  div [class "article-image-box"] [
-                      img [src content.imageURL][]
+                      img [src content.imageURL, alt content.imgAlt][]
                      ]
                 , dividerLineShort
                 , h3 [class "article-header"] [
