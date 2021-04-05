@@ -135,3 +135,6 @@ dist
 
 build/
 elm-stuff
+
+# Local Netlify folder
+.netlify
