@@ -31,7 +31,7 @@ emptyArticle =
     , ingress = "EMPTY"
     , imgAlt = "EMPTY"
     , imageURL = "EMPTY"
-    , articleURL = "EMPTY"
+    , slug = "EMPTY"
     }
     
 ---- MODEL ----
@@ -44,7 +44,8 @@ articlesQuery = """
 author->{name}, 
 body[0]{children[0]{text}}, 
 mainImage{asset->{originalFilename, path}},
-title
+title,
+slug
 }
 """
 
@@ -61,7 +62,7 @@ type alias Article =
     , ingress: String
     , imgAlt: String
     , imageURL: String
-    , articleURL: String
+    , slug: String
     }
 
 
@@ -252,7 +253,7 @@ featuredArticleView article =
                      ]
                      
                 , div [class "featured-text"] [
-                      a [class "featured-heading", href content.articleURL] [
+                      a [class "featured-heading", href content.slug] [
                            h2 [class "no-top-margin"] [
                                 text content.title
                                ]
@@ -279,7 +280,7 @@ articleView : Resource Article -> Html Msg
 articleView article =
     case article of
         Valid content ->
-            a [class "article-box", href content.articleURL] [
+            a [class "article-box", href content.slug] [
                  div [class "article-image-box"] [
                       img [src content.imageURL, alt content.imgAlt][]
                      ]
@@ -353,13 +354,13 @@ articleDataDecoder =
                          )
                     )
                )
-               (map buildArticleUrl(field "title" string))
+               (field "slug" (field "current" string ))
               )
          )
     )
 
-buildArticleUrl : String -> String
-buildArticleUrl path = "/" ++ path
+buildslug : String -> String
+buildslug path = "/" ++ path
 
 buildImageUrl : String -> String
 buildImageUrl path = cmsUrlBase ++ path ++ "?w=500&h=500"
