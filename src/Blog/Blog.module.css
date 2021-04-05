@@ -1,0 +1,41 @@
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 72px;
+}
+
+.header {
+  text-align: center;
+}
+
+.line {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.responsive {
+  width: 100%;
+  height: auto;
+}
+
+.headerBottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.ingress > p {
+  font-size: 32px;
+}
+
+.body > * > p {
+  font-size: 24px;
+}
+
+.headerBottom > p {
+  color: var(--primary-gold);
+  font-size: 32px;
+}
