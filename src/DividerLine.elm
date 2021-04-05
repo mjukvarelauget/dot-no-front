@@ -1,6 +1,6 @@
 module DividerLine exposing (dividerLine, dividerLineShort)
 
-import Html exposing (Html, text, img, span, div, p, hr)
+import Html exposing (Html, img, span, div, hr)
 import Html.Attributes exposing (..)
 
 dividerLine : Html msg 

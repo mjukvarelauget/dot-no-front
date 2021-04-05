@@ -13,7 +13,8 @@ import Array
 
 import DividerLine exposing ( dividerLine, dividerLineShort )
 
----- TESTDATA ----
+---- MODEL ----
+subHeaderList : List String
 subHeaderList =
     [ "Bare ræl"
     , "Også på Skedsmo"
@@ -47,7 +48,8 @@ title
 }
 """
 
-                
+
+urlBase : String
 urlBase = "https://mjukvare-no-api.herokuapp.com/"
 urlHaiku = "/bad/haiku"
 
