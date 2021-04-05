@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-scripts/config/webpack.config.js b/node_modules/react-scripts/config/webpack.config.js
+index 26c2a65..05d596e 100644
+--- a/node_modules/react-scripts/config/webpack.config.js
++++ b/node_modules/react-scripts/config/webpack.config.js
+@@ -377,6 +377,11 @@ module.exports = function (webpackEnv) {
+           // match the requirements. When no loader matches it will fall
+           // back to the "file" loader at the end of the loader list.
+           oneOf: [
++            {
++              test: /\.elm$/,
++              exclude: [/elm-stuff/, /node_modules/],
++              use: 'elm-webpack-loader'
++            },
+             // TODO: Merge this config once `image/avif` is in the mime-db
+             // https://github.com/jshttp/mime-db
+             {

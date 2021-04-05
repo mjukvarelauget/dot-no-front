@@ -1,10 +1,8 @@
-module Main exposing (..)
+module ElmMain exposing (main)
 
 import Html exposing ( Html, div, text, h1, h2, h3, p, img, a )
 import Html.Attributes exposing ( class, href, src, alt )
 import Browser
-
-import Task
 
 import Json.Decode exposing (Decoder, field, string, list, map, map5)
 import Http
