@@ -253,7 +253,7 @@ featuredArticleView article =
                      ]
                      
                 , div [class "featured-text"] [
-                      a [class "featured-heading", href content.slug] [
+                      a [class "featured-heading", href ("/blog/" ++ content.slug)] [
                            h2 [class "no-top-margin"] [
                                 text content.title
                                ]
@@ -280,7 +280,7 @@ articleView : Resource Article -> Html Msg
 articleView article =
     case article of
         Valid content ->
-            a [class "article-box", href content.slug] [
+            a [class "article-box", href ("/blog/" ++ content.slug)] [
                  div [class "article-image-box"] [
                       img [src content.imageURL, alt content.imgAlt][]
                      ]
