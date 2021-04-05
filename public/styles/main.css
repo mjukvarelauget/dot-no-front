@@ -1,6 +1,7 @@
 :root {
   --primary-brown: #362B21;
   --primary-gold: #FFC700;
+  --content-font-size: 18px;
 }
 
 body {
@@ -28,13 +29,29 @@ p {
 }
 
 p {
-  font-size: 18px;
+  font-size: var(--content-font-size);
+}
+
+.no-top-margin {
+    margin-top: 0px;
+}
+
+.content-wrapper {
+    max-width: 1920px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-column {
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .haiku-wrapper {
   text-decoration: underline white;
   font-family: 'Lobster', cursive;
   font-size: 2em;
+  min-height: 6em;
   margin: 0 4em 0 4em; 
 }
 
@@ -48,17 +65,83 @@ p {
   text-align: right;
 }
 
+.featured-article {
+    display: flex;
+    margin: 20px 20px 0px 20px;
+    font-size: var(--content-font-size);
+    height: 14em;
+}
+
+.featured-heading {
+    font-size: 30px;
+    height: 20%;
+}
+
+.featured-image {
+    height: 100%;
+    width: 100%;
+}
+
+.featured-image-box {
+    width: 33%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.featured-text {
+    width: 66%;
+    text-align: center;
+}
+
+.articles-list {
+    margin: 50px 0px 50px 0px;
+    display: flex;
+}
+
+.article-box {
+    margin: 0px 20px 0px 20px;
+    height: 200px;
+    width: 33%;
+}
+
+@media only screen and (max-width: 800px) {
+    .article-box {
+	margin: 20px 20px 20px 20px;
+	height: 60vw;
+	width: 100%;
+    }
+
+    .articles-list {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    }
+}
+
+.article-image-box {
+    height: 60%;
+    overflow: hidden;
+}
+
+.article-image-box img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.article-header {
+    text-align: center;
+}
+
 a:visited {
   color: white;
 }
 
 .title {
-  text-align: center;
+    text-align: center;
 }
 
 .title-top {
   font-size: 72px;
-
 }
 
 .title-bottom {
@@ -76,6 +159,11 @@ a:visited {
 }
 
 
+.short {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .divider {
   position: relative;
