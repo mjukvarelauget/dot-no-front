@@ -39,9 +39,9 @@ emptyArticle =
 ---- MODEL ----
 cmsApiUrlBase = "https://ll3wkgw3.api.sanity.io/v1/data/query/production/"
 cmsUrlBase = "https://cdn.sanity.io/"
--- Evntually we'll want to fetch 4 posts in total, but the cms does only contain 3 atm
+-- Only fetches the 3 most recent to display in homepage
 articlesQuery = """
-*[_type == 'post'] | [0..3] | order(_createdAt asc) | 
+*[_type == 'post'] | [0..2] | order(_createdAt asc) | 
 {
 author->{name}, 
 body[0]{children[0]{text}}, 
@@ -236,6 +236,11 @@ showLoadedArticles articles =
         , div
              [class "articles-list"]
              (List.map (articleView << Valid) articles)
+        , div [class "blog-link-wrapper"] [
+              a [class "blog-link", href "/blog/"] [
+                   text "Se alle innlegg"
+                  ]
+             ]
         ]
             
 articleView : Resource Article -> Html Msg

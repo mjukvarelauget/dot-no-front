@@ -75,16 +75,30 @@ p {
 .articles-list {
   margin: 50px 0px 50px 0px;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .article-box {
   margin: 0px 20px 0px 20px;
-  height: 200px;
-  width: 33%;
+  height: 300px;
+  width: calc(33% - 40px);
 }
 
 .articles-header {
     text-align: center;
+}
+
+.blog-link-wrapper {
+    display: flex;
+    justify-content: end;
+}
+
+.blog-link {
+    position: relative;
+    bottom: 30px;
+    right: 50px;
+    font-size: calc(var(--content-font-size) * 2);
 }
 
 @media only screen and (max-width: 800px) {
