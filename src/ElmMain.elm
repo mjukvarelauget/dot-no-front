@@ -222,59 +222,16 @@ articlesView model =
             showLoadedArticles articles
 
 showLoadedArticles : (List Article) -> Html Msg
-showLoadedArticles articles =
-    let
-        featuredArticle =
-            case List.head articles of
-                Just article -> article
-                Nothing -> emptyArticle
-                           
-        restOfArticles =
-            case List.tail articles of
-                Just rest -> rest
-                Nothing -> [emptyArticle]
-    in
-        -- "<<" is function composition (f << g) x  == f(g(x))
-        div [class "articles-wrapper" ] [
-             featuredArticleView (Valid featuredArticle)
-            , div [class "articles-list"] (List.map (articleView << Valid) restOfArticles)
-            ]
-   
-featuredArticleView : Resource Article -> Html Msg
-featuredArticleView article =
-    case article of
-        Valid content ->
-            div [class "featured-article"] [
-                 div [class "featured-image-box"] [
-                      img [
-                        class "featured-image"
-                      , src content.imageURL
-                      , alt content.imgAlt] []
-                     ]
-                     
-                , div [class "featured-text"] [
-                      a [class "featured-heading", href ("/blog/" ++ content.slug)] [
-                           h2 [class "no-top-margin"] [
-                                text content.title
-                               ]
-                          ]
-                     , dividerLineShort
-                     , p [class "text-box-text"] [
-                           text content.ingress
-                          ]
-                     ]
-               ]
-                
-        Empty ->
-            div [class "featured-article"] [
-                 text "Loading featured article"
-                ]
-
-        Failed message ->
-            div [class "featured-article"] [
-                 text ("Featured article load failed: " ++ message)
-                ]
-
+showLoadedArticles articles =    
+    -- "<<" is function composition (f << g) x  == f(g(x))
+    div [class "articles-wrapper" ] [
+         h1 [class "articles-header"] [
+              text "Prosjekter og blogginnlegg"
+             ]
+        , div
+             [class "articles-list"]
+             (List.map (articleView << Valid) articles)
+        ]
             
 articleView : Resource Article -> Html Msg
 articleView article =
