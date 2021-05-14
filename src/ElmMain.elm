@@ -13,6 +13,8 @@ import Array
 
 import DividerLine exposing ( dividerLine, dividerLineShort )
 
+softHyphen = "\u{00AD}"
+
 ---- MODEL ----
 subHeaderList : List String
 subHeaderList =
@@ -173,7 +175,10 @@ headerView model =
 
     in
         div [ class "title" ]
-            [ h1 [ class "title-top" ] [ text "Mjukvarelauget" ]
+            [ h1 [ class "title-top" ]
+                  [
+                   text ("Mjukvare"++softHyphen++"lauget")
+                  ]
             , dividerLineShort
             , h2 [ class "title-bottom"] [ text headerText ]
             ]
