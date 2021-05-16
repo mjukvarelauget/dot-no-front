@@ -63,6 +63,7 @@ const Post = () => {
               <p>Lesetid: ca.{articleReadLength(post.body)} minutter</p>
             </div>
             <img
+	      alt={post.imgAlt}
               className={styles.responsive}
               src={urlFor(post.mainImage).width(1200)}
             />

@@ -21,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "testelm": "elm make --output=/dev/null src/ElmMain.elm"
   },
   "eslintConfig": {
     "extends": [

@@ -1,7 +1,7 @@
 import "./App.css";
 import Elm from "react-elm-components";
 import StartPage from "./ElmMain.elm";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Blog from "./Blog/List.elm";
 import Post from "./Blog/Post";
 

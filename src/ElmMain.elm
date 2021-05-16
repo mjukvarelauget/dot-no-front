@@ -13,6 +13,8 @@ import Array
 
 import DividerLine exposing ( dividerLine, dividerLineShort )
 
+softHyphen = "\u{00AD}"
+
 ---- MODEL ----
 subHeaderList : List String
 subHeaderList =
@@ -37,9 +39,9 @@ emptyArticle =
 ---- MODEL ----
 cmsApiUrlBase = "https://ll3wkgw3.api.sanity.io/v1/data/query/production/"
 cmsUrlBase = "https://cdn.sanity.io/"
--- Evntually we'll want to fetch 4 posts in total, but the cms does only contain 3 atm
+-- Only fetches the 3 most recent to display in homepage
 articlesQuery = """
-*[_type == 'post'] | [0..3] | order(_createdAt asc) | 
+*[_type == 'post'] | [0..2] | order(_createdAt asc) | 
 {
 author->{name}, 
 body[0]{children[0]{text}}, 
@@ -173,7 +175,10 @@ headerView model =
 
     in
         div [ class "title" ]
-            [ h1 [ class "title-top" ] [ text "Mjukvarelauget" ]
+            [ h1 [ class "title-top" ]
+                  [
+                   text ("Mjukvare"++softHyphen++"lauget")
+                  ]
             , dividerLineShort
             , h2 [ class "title-bottom"] [ text headerText ]
             ]
@@ -222,59 +227,21 @@ articlesView model =
             showLoadedArticles articles
 
 showLoadedArticles : (List Article) -> Html Msg
-showLoadedArticles articles =
-    let
-        featuredArticle =
-            case List.head articles of
-                Just article -> article
-                Nothing -> emptyArticle
-                           
-        restOfArticles =
-            case List.tail articles of
-                Just rest -> rest
-                Nothing -> [emptyArticle]
-    in
-        -- "<<" is function composition (f << g) x  == f(g(x))
-        div [class "articles-wrapper" ] [
-             featuredArticleView (Valid featuredArticle)
-            , div [class "articles-list"] (List.map (articleView << Valid) restOfArticles)
-            ]
-   
-featuredArticleView : Resource Article -> Html Msg
-featuredArticleView article =
-    case article of
-        Valid content ->
-            div [class "featured-article"] [
-                 div [class "featured-image-box"] [
-                      img [
-                        class "featured-image"
-                      , src content.imageURL
-                      , alt content.imgAlt] []
-                     ]
-                     
-                , div [class "featured-text"] [
-                      a [class "featured-heading", href ("/blog/" ++ content.slug)] [
-                           h2 [class "no-top-margin"] [
-                                text content.title
-                               ]
-                          ]
-                     , dividerLineShort
-                     , p [class "text-box-text"] [
-                           text content.ingress
-                          ]
-                     ]
-               ]
-                
-        Empty ->
-            div [class "featured-article"] [
-                 text "Loading featured article"
-                ]
-
-        Failed message ->
-            div [class "featured-article"] [
-                 text ("Featured article load failed: " ++ message)
-                ]
-
+showLoadedArticles articles =    
+    -- "<<" is function composition (f << g) x  == f(g(x))
+    div [class "articles-wrapper" ] [
+         h1 [class "articles-header"] [
+              text "Prosjekter og blogginnlegg"
+             ]
+        , div
+             [class "articles-list"]
+             (List.map (articleView << Valid) articles)
+        , div [class "blog-link-wrapper"] [
+              a [class "blog-link", href "/blog/"] [
+                   text "Se alle innlegg"
+                  ]
+             ]
+        ]
             
 articleView : Resource Article -> Html Msg
 articleView article =
