@@ -1,10 +1,10 @@
-module SpinLoader exposing (spinLoader)
+module SpinLoader exposing (main)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
 
-spinLoader : Html msg 
-spinLoader = 
+main : Html msg 
+main = 
     div [ class "spin-container" ] [
         div [ class "spin-loader"  ] [
             div [ class "pulse-loader" ] [

@@ -6,7 +6,7 @@
   ]
 */
 
-export const READ_SPEED = 250;
+export const READ_SPEED = 220;
 
 export const articleReadLength = (body) => {
   let count = 0;

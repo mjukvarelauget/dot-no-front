@@ -1,5 +1,6 @@
 import Elm from "react-elm-components";
 import DividerLineReact from "../DividerLineReact.elm";
+import SpinLoader from "../SpinLoader.elm";
 import imageUrlBuilder from "@sanity/image-url";
 import styles from "./Blog.module.css";
 
@@ -27,18 +28,23 @@ const Post = () => {
   const urlFor = (source) => builder.image(source);
 
   useEffect(() => {
-    SanityClient.fetch(`*[_type == "post" && slug.current == "${slug}"]`).then(
-      (post) => {
-        setPost(post[0]);
-      }
-    );
+    SanityClient.fetch(
+      `*[_type == "post" && slug.current == "${slug}"]{author -> {name, image}, ...}`
+    ).then((post) => {
+      setPost(post[0]);
+    });
   }, [slug]);
 
   const renderBlog = () => {
     if (post === "loading") {
       <p>Loading...</p>;
     } else if (post === undefined) {
-      return <h1>No blogpost for you</h1>;
+      return (
+        <>
+          <h1 className={styles.noBlog}>No blog for you</h1>
+          <Elm src={SpinLoader.Elm.SpinLoader} />
+        </>
+      );
     } else {
       return (
         <>
@@ -56,11 +62,19 @@ const Post = () => {
               />
             </div>
             <div className={styles.headerBottom}>
-              <p>
-                Publisert:{" "}
-                {new Date(post._createdAt).toLocaleDateString("no-NB")}
+              <div className={styles.headerInfoLeft}>
+                <img
+                  className={styles.authorImg}
+                  src={urlFor(post.author.image).width(64)}
+                />
+                <div>
+                  <p style={{ fontSize: 24 }}>{post.author.name}</p>
+                  <p>{new Date(post._createdAt).toLocaleDateString("no-NB")}</p>
+                </div>
+              </div>
+              <p className={styles.headerInfoRight}>
+                Lesetid: ca.{articleReadLength(post.body)} minutter
               </p>
-              <p>Lesetid: ca.{articleReadLength(post.body)} minutter</p>
             </div>
             <img
 	      alt={post.imgAlt}
