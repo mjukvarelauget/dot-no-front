@@ -26,6 +26,7 @@ subHeaderList =
     , "JABEEEEE"
     , "aaaaaaaa"
     , "Mjukvara på norsk"
+    , "Typisk Erling"
     ]
 
 emptyArticle =
@@ -284,8 +285,8 @@ loadData =
 ---- Random ----
 getSubHeader : Cmd Msg
 getSubHeader =
-    Random.generate GotSubHeaderIndex (Random.int 0 7)
-        
+    Random.generate GotSubHeaderIndex (Random.int 0 ((listLength subHeaderList) - 1 ))
+
 ---- HTTP ----
 getArticleData : Cmd Msg
 getArticleData =
@@ -325,6 +326,13 @@ articleDataDecoder =
               )
          )
     )
+
+---- Utils ----
+listLength : List a -> Int
+listLength list =
+    case list of
+        [] -> 0
+        (head::tail) -> 1 + listLength tail
 
 buildslug : String -> String
 buildslug path = "/" ++ path
