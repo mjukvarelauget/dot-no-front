@@ -27,6 +27,7 @@ subHeaderList =
     , "aaaaaaaa"
     , "Mjukvara på norsk"
     , "Typisk Erling"
+    , "God tid og dårlig dømmekraft"
     ]
 
 emptyArticle =
