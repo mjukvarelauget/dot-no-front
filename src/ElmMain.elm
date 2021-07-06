@@ -28,6 +28,7 @@ subHeaderList =
     , "Mjukvara på norsk"
     , "Typisk Erling"
     , "God tid og dårlig dømmekraft"
+    , "Norges minst tilrådelige aktivitet"
     ]
 
 emptyArticle =
